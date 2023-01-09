@@ -25,5 +25,5 @@ app.use('/api/auth', require('./routes/authRoutes'));
 
 app.use(errorHandler);
 
-// app.listen(port, () => console.log(`Server started on port ${port}`))
+// / app.listen(port, () => console.log(`Server started on port ${port}`))
 app.listen(process.env.PORT || 8080, () => console.log(`Server started on port ${port}`))
