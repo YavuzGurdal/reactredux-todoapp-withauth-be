@@ -14,7 +14,10 @@ const app = express();
 
 app.use(express.json())
 
-app.use(cors({ credentials: true, origin: 'https://reactredux-todoapp-withauth-fe.netlify.app' })) // bunun sonunda / olmayacak
+app.use(cors({
+    origin: '*'
+}));
+// app.use(cors({ credentials: true, origin: 'https://reactredux-todoapp-withauth-fe.netlify.app' })) // bunun sonunda / olmayacak
 
 app.use(express.urlencoded({ extended: false }))
 
