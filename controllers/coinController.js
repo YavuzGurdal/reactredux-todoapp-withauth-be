@@ -26,19 +26,28 @@ const addCoin = asyncHandler(async (req, res, next) => {
     const { coinName, coinBuyPrice, coinBuyTime, coinAmount, stockMarketName, note } = req.body
 
     if (!coinName || !coinBuyPrice || !coinBuyTime || !coinAmount || !stockMarketName || !note) {
-        res.status(400)
-        throw new Error('Please add all fields')
+
+        return next(createError(400, 'Please add a Coin'))
+        // res.status(400)
+        // throw new Error('Please add all fields')
     }
 
-    // Create user
-    const coin = await Coin.create({ userId: req.user.id, coinName, coinBuyPrice, coinBuyTime, coinAmount, stockMarketName, note })
+    // Create coin
+    try {
+        const savedCoin = await Coin.create({ userId: req.user.id, coinName, coinBuyPrice, coinBuyTime, coinAmount, stockMarketName, note })
 
-    if (coin) {
-        res.status(200).json(coin)
-    } else {
-        res.status(400)
-        throw new Error('Invalid coin data')
+        res.status(200).json(savedCoin)
+    } catch (err) {
+        next(err)
     }
+
+
+    // if (coin) {
+    //     res.status(200).json(coin)
+    // } else {
+    //     res.status(400)
+    //     throw new Error('Invalid coin data')
+    // }
 
     // try {
     //     const savedCoin = await newCoin.save()
