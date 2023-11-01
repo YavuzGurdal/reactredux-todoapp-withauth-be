@@ -21,6 +21,7 @@ app.use(cors({
 
 app.use(express.urlencoded({ extended: false }))
 
+app.use('/api/coins', require('./routes/coinRoutes'));
 app.use('/api/todos', require('./routes/todoRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 
