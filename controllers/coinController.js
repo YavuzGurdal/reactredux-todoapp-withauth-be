@@ -22,21 +22,46 @@ const getCoins = asyncHandler(async (req, res, next) => {
 // CREATE A Coin
 // @route POST /api/Coins/
 const addCoin = asyncHandler(async (req, res, next) => {
-    if (!req.body.coin) return next(createError(400, 'Please add a Coin'))
 
-    const newCoin = new Coin({ userId: req.user.id, ...req.body })
-
-    // Coin modeldekine gore userId'yi yukaridaki gibi ekliyorum. 
-    // req.user.id 'daki id authMiddleware icindeki verifyToken'daki jwt.verify icinden gonderilen req.user icinden geliyor
-
-    try {
-        const savedCoin = await newCoin.save()
-
-        res.status(200).json(savedCoin)
-    } catch (err) {
-        next(err)
+    if (!coinName || !coinBuyPrice || !coinBuyTime || !coinAmount || !stockMarketName || !note) {
+        res.status(400)
+        throw new Error('Please add all fields')
     }
+
+    // Create user
+    const coin = await Coin.create({ userId: req.user.id, coinName, coinBuyPrice, coinBuyTime, coinAmount, stockMarketName, note })
+
+    if (coin) {
+        res.status(200).json(coin)
+    } else {
+        res.status(400)
+        throw new Error('Invalid coin data')
+    }
+
+    // try {
+    //     const savedCoin = await newCoin.save()
+
+    //     res.status(200).json(savedCoin)
+    // } catch (err) {
+    //     next(err)
+    // }
 })
+// const addCoin = asyncHandler(async (req, res, next) => {
+//     if (!req.body.coin) return next(createError(400, 'Please add a Coin'))
+
+//     const newCoin = new Coin({ userId: req.user.id, ...req.body })
+
+//     // Coin modeldekine gore userId'yi yukaridaki gibi ekliyorum. 
+//     // req.user.id 'daki id authMiddleware icindeki verifyToken'daki jwt.verify icinden gonderilen req.user icinden geliyor
+
+//     try {
+//         const savedCoin = await newCoin.save()
+
+//         res.status(200).json(savedCoin)
+//     } catch (err) {
+//         next(err)
+//     }
+// })
 
 // UPDATE A Coin
 // @route PUT /api/Coins/:id
