@@ -23,6 +23,8 @@ const getCoins = asyncHandler(async (req, res, next) => {
 // @route POST /api/Coins/
 const addCoin = asyncHandler(async (req, res, next) => {
 
+    const { coinName, coinBuyPrice, coinBuyTime, coinAmount, stockMarketName, note } = req.body
+
     if (!coinName || !coinBuyPrice || !coinBuyTime || !coinAmount || !stockMarketName || !note) {
         res.status(400)
         throw new Error('Please add all fields')
